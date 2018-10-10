@@ -14,24 +14,30 @@ class Strength_Conv2d(nn.Module):
         self.groups = groups
         self.in_channels = in_channels
         self.out_channels = out_channels
-        self.bias = bias
         self.weight = param.Parameter(torch.ones((out_channels,in_channels/groups,kerner_size,kerner_size)))
         self.weight.requires_grad = False
-        # self.register_parameter("mweight", self.weight)
         self.t = param.Parameter(torch.randn((out_channels)))
         self.t.requires_grad = True
-        # self.register_parameter("strength",self.t)
+        if bias:
+            self.bias = param.Parameter(torch.ones(out_channels))
+        else:
+            self.bias = None
 
 
     def forward(self, input):
-        self.weight = param.Parameter(self.weight.transpose(0,3))
-        self.weight = self.weight * self.t
-        self.weight = self.weight.transpose(0,3)
-        return func.conv2d(input,self.weight,self.bias,self.stride,self.padding,self.dilation,self.groups)
+        return func.conv2d(input,(self.weight.transpose(0,3) * self.t).transpose(0,3),self.bias,self.stride,self.padding,self.dilation,self.groups)
 
 if __name__ == '__main__':
+    #test_strength_conv2d
     input = torch.randn(1,3,5,5)
-    SConv2d = Strength_Conv2d(3,64,kerner_size=3)
-    out = SConv2d.forward(input)
-    print(out)
-    # optimzier = optim.SGD(filter(lambda p:p.requires_grad,SConv2d.named_parameters()))
+    target = torch.randn(1,1,3,3)
+    SConv2d = Strength_Conv2d(3,1,kerner_size=3)
+    optimizer = optim.SGD(filter(lambda p: p.requires_grad, SConv2d.parameters()), lr=1e-3)
+    loss = nn.L1Loss()
+    for i in range(500):
+        out = SConv2d(input)
+        myloss = loss(out,target)
+        print(SConv2d.t)
+        optimizer.zero_grad()
+        myloss.backward()
+        optimizer.step()
