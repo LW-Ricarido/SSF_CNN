@@ -5,11 +5,11 @@ from .Strength import Strength_Conv2d
 from copy import deepcopy
 
 __all__ = [
-    'VGG', 'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn',
-    'vgg19_bn', 'vgg19',
+   'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn','vgg19_bn', 'vgg19',
 ]
 
 def Sconv3x3(in_channels,out_channels,stride = 1):
+    "3x3 Strenght_Conv2d with padding"
     return Strength_Conv2d(in_channels,out_channels,kerner_size=3,stride=1,padding=1)
 
 cfg = {
@@ -58,6 +58,10 @@ class SSF_VGG(nn.Module):
         return x
 
     def _initialize_weights(self):
+        """
+        wait for implementing
+        :return:
+        """
         print("test")
 
 
@@ -65,7 +69,7 @@ def vgg11(args):
     """VGG 11-layer model (configuration "A")
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['A']),args,False)
@@ -74,7 +78,6 @@ def vgg11(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -91,7 +94,7 @@ def vgg11_bn(args):
     """VGG 11-layer model (configuration "A") with batch normalization
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['A'],batch_norm=True),args,False)
@@ -100,7 +103,6 @@ def vgg11_bn(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -117,7 +119,7 @@ def vgg13(args):
     """VGG 13-layer model (configuration "B")
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['B']),args,False)
@@ -126,7 +128,6 @@ def vgg13(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -143,7 +144,7 @@ def vgg13_bn(args):
     """VGG 13-layer model (configuration "B") with batch normalization
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['B'],batch_norm=True),args,False)
@@ -152,7 +153,6 @@ def vgg13_bn(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -169,7 +169,7 @@ def vgg16(args):
     """VGG 16-layer model (configuration "D")
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['D']),args,False)
@@ -178,7 +178,6 @@ def vgg16(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -195,7 +194,7 @@ def vgg16_bn(args):
     """VGG 16-layer model (configuration "D") with batch normalization
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['D'],batch_norm=True),args,False)
@@ -204,7 +203,6 @@ def vgg16_bn(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -221,7 +219,7 @@ def vgg19(args):
     """VGG 19-layer model (configuration "E")
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['E']),args,False)
@@ -230,7 +228,6 @@ def vgg19(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -247,7 +244,7 @@ def vgg19_bn(args):
     """VGG 19-layer model (configuration 'E') with batch normalization
 
     Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
+        args.pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     if args.pretrained:
         model = SSF_VGG(make_layers(cfg['E'],batch_norm=True),args,False)
@@ -256,7 +253,6 @@ def vgg19_bn(args):
         keys = deepcopy(pretrained_dict).keys()
         for key in keys:
             if key not in model_dict:
-                print(key)
                 del pretrained_dict[key]
 
 
@@ -266,8 +262,7 @@ def vgg19_bn(args):
         return model
     return SSF_VGG(make_layers(cfg['E'],batch_norm=True),args)
 
-
-
+    
 
 
 
