@@ -5,8 +5,9 @@ import torch.nn.parameter as param
 import torch.optim as optim
 
 class Strength_Conv2d(nn.Module):
-    def __init__(self,in_channels, out_channels, kerner_size, stride=1,
+    def __init__(self,in_channels, out_channels, kernel_size, stride=1,
                  padding = 0,dilation=1,groups=1,bias=True):
+        #TODO: wait for implement of a better weight init
         super(Strength_Conv2d, self).__init__()
         self.padding = padding
         self.stride = stride
@@ -14,7 +15,7 @@ class Strength_Conv2d(nn.Module):
         self.groups = groups
         self.in_channels = in_channels
         self.out_channels = out_channels
-        self.weight = param.Parameter(torch.ones((out_channels,in_channels/groups,kerner_size,kerner_size)))
+        self.weight = param.Parameter(torch.ones((out_channels,in_channels/groups,kernel_size,kernel_size)))
         self.weight.requires_grad = False
         self.t = param.Parameter(torch.randn((out_channels)))
         self.t.requires_grad = True
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     #test_strength_conv2d
     input = torch.randn(1,3,5,5)
     target = torch.randn(1,1,3,3)
-    SConv2d = Strength_Conv2d(3,1,kerner_size=3)
+    SConv2d = Strength_Conv2d(3,1,kernel_size=3)
     optimizer = optim.SGD(filter(lambda p: p.requires_grad, SConv2d.parameters()), lr=1e-3)
     loss = nn.L1Loss()
     for i in range(500):
