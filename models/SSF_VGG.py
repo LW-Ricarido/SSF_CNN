@@ -5,7 +5,7 @@ from .Strength import Strength_Conv2d
 from copy import deepcopy
 
 __all__ = [
-   'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn','vgg19_bn', 'vgg19',
+   'ssf_vgg11', 'ssf_vgg11_bn', 'ssf_vgg13', 'ssf_vgg13_bn', 'ssf_vgg16', 'ssf_vgg16_bn','ssf_vgg19', 'ssf_vgg19_bn',
 ]
 
 def Sconv3x3(in_channels,out_channels,stride = 1):
@@ -59,13 +59,13 @@ class SSF_VGG(nn.Module):
 
     def _initialize_weights(self):
         """
-        wait for implementing
+        TODO:wait for implementing weights of the whole SSF_VGG
         :return:
         """
         print("test")
 
 
-def vgg11(args):
+def ssf_vgg11(args):
     """VGG 11-layer model (configuration "A")
 
     Args:
@@ -90,7 +90,7 @@ def vgg11(args):
 
 
 
-def vgg11_bn(args):
+def ssf_vgg11_bn(args):
     """VGG 11-layer model (configuration "A") with batch normalization
 
     Args:
@@ -115,7 +115,7 @@ def vgg11_bn(args):
 
 
 
-def vgg13(args):
+def ssf_vgg13(args):
     """VGG 13-layer model (configuration "B")
 
     Args:
@@ -140,7 +140,7 @@ def vgg13(args):
 
 
 
-def vgg13_bn(args):
+def ssf_vgg13_bn(args):
     """VGG 13-layer model (configuration "B") with batch normalization
 
     Args:
@@ -165,7 +165,7 @@ def vgg13_bn(args):
 
 
 
-def vgg16(args):
+def ssf_vgg16(args):
     """VGG 16-layer model (configuration "D")
 
     Args:
@@ -190,7 +190,7 @@ def vgg16(args):
 
 
 
-def vgg16_bn(args):
+def ssf_vgg16_bn(args):
     """VGG 16-layer model (configuration "D") with batch normalization
 
     Args:
@@ -215,7 +215,7 @@ def vgg16_bn(args):
 
 
 
-def vgg19(args):
+def ssf_vgg19(args):
     """VGG 19-layer model (configuration "E")
 
     Args:
@@ -240,7 +240,7 @@ def vgg19(args):
 
 
 
-def vgg19_bn(args):
+def ssf_vgg19_bn(args):
     """VGG 19-layer model (configuration 'E') with batch normalization
 
     Args:
