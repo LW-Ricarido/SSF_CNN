@@ -4,7 +4,7 @@ import math
 from .Strength import Strength_Conv2d
 from copy import deepcopy
 
-# __all__ = ['Bottleneck','ResNet','resnet34','resnet50','resnet101','resnet152']
+__all__ = ['Bottleneck','SSF_ResNet','ssf_resnet18','ssf_resnet34','ssf_resnet50','ssf_resnet101','ssf_resnet152']
 
 def Sconv3x3(in_channels,out_channels,stride = 1):
     "3x3 Strenght_Conv2d with padding"
@@ -97,8 +97,8 @@ class SSF_ResNet(nn.Module):
 
         for m in self.modules():
             if isinstance(m,Strength_Conv2d):
-                #TODO: wait strength
-                m = m
+                n = m.kernel_size * m.kernel_size * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
             elif isinstance(m,nn.BatchNorm2d):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
@@ -138,3 +138,126 @@ class SSF_ResNet(nn.Module):
         return x
 
 
+def ssf_resnet18(args):
+    """Constructs a ResNet-18 model.
+
+    Args:
+        pretrained : If True, returns a model pre-trained on ImageNet
+    """
+    if args.pretrained:
+        model = SSF_ResNet(BasicBlock,[2,2,2,2],args)
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+
+        keys = deepcopy(pretrained_dict).keys()
+
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
+
+    return SSF_ResNet(BasicBlock, [2,2,2,2],args)
+
+
+def ssf_resnet34(args):
+    """Constructs a ResNet-34 model.
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    if args.pretrained:
+        model = SSF_ResNet(BasicBlock, [3, 4, 6, 3], args)
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+
+        keys = deepcopy(pretrained_dict).keys()
+
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
+
+    return SSF_ResNet(BasicBlock, [3, 4, 6, 3], args)
+
+
+def ssf_resnet50(args):
+    """Constructs a ResNet-50 model.
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    if args.pretrained:
+        model = SSF_ResNet(Bottleneck, [3, 4, 6, 3], args)
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+
+        keys = deepcopy(pretrained_dict).keys()
+
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
+
+    return SSF_ResNet(Bottleneck, [3, 4, 6, 3], args)
+
+
+def ssf_resnet101(args):
+    """Constructs a ResNet-101 model.
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    if args.pretrained:
+        model = SSF_ResNet(Bottleneck, [3, 4, 23, 3], args)
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+
+        keys = deepcopy(pretrained_dict).keys()
+
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
+
+    return SSF_ResNet(Bottleneck, [3, 4, 23, 3], args)
+
+
+def ssf_resnet152(args):
+    """Constructs a ResNet-152 model.
+
+    Args:
+        pretrained (bool): If True, returns a model pre-trained on ImageNet
+    """
+    if args.pretrained:
+        model = SSF_ResNet(Bottleneck, [3, 8, 36, 3], args)
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+
+        keys = deepcopy(pretrained_dict).keys()
+
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
+
+    return SSF_ResNet(Bottleneck, [3, 8, 36, 3], args)
