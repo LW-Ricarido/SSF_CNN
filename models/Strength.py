@@ -7,8 +7,8 @@ import torch.optim as optim
 class Strength_Conv2d(nn.Module):
     def __init__(self,in_channels, out_channels, kernel_size, stride=1,
                  padding = 0,dilation=1,groups=1,bias=True):
-        #TODO: wait for implement of a better weight init
         super(Strength_Conv2d, self).__init__()
+        self.kernel_size = kernel_size
         self.padding = padding
         self.stride = stride
         self.dilation = dilation
@@ -23,7 +23,6 @@ class Strength_Conv2d(nn.Module):
             self.bias = param.Parameter(torch.ones(out_channels))
         else:
             self.bias = None
-
 
     def forward(self, input):
         return func.conv2d(input,(self.weight.transpose(0,3) * self.t).transpose(0,3),self.bias,self.stride,self.padding,self.dilation,self.groups)
