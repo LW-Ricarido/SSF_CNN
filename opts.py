@@ -9,6 +9,7 @@ parser.add_argument('-train_record', action='store_true', help='Path to save tra
 parser.add_argument('-test_only', action='store_true', help='Only conduct test on the validation set')
 parser.add_argument('-ckpt', default=0, type=int, help='Choose the checkpoint to run')
 
+parser.add_argument('-dataset',required=True,help='DataSet chosen to test')
 parser.add_argument('-model', required=True, help='Model type when we create a new one')
 parser.add_argument('-data_dir', required=True, help='Path to data directory')
 parser.add_argument('-train_list', required=True, help='Path to data directory')
