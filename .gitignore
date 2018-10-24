@@ -7,3 +7,4 @@ results.txt
 /pretrained/
 *.sh
 *.log
+*.pyc
