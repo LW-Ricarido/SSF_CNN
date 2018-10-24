@@ -149,13 +149,13 @@ class Trainer:
             acc_top3_avg += acc_top3 * batch_size
 
             total += batch_size
-
-            print("| Test[%d] [%d/%d]   Acc %6.3f  Acc-Top3 %6.3f" % (
-                epoch,
-                i + 1,
-                n_batches,
-                acc,
-                acc_top3))
+            if i % 10 == 0:
+                print("| Test[%d] [%d/%d]   Acc %6.3f  Acc-Top3 %6.3f" % (
+                    epoch,
+                    i + 1,
+                    n_batches,
+                    acc,
+                    acc_top3))
 
         acc_avg /= total
         acc_top3_avg /= total
