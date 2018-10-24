@@ -55,11 +55,11 @@ class Logger:
             train_rec = [train_summary[key] for key in keys]
 
         if test_summary:
-            top3 = test_summary['acc-top3']
+            top3 = test_summary['acc']
             state_top3 = self.state['best_acc']
 
             if top3 > state_top3:
-                self.state['best_acc'] = test_summary['acc-top3']
+                self.state['best_acc'] = test_summary['acc']
                 self.state['best_epoch'] = epoch
 
                 best = os.path.join(self.save_path, 'best.pth')
