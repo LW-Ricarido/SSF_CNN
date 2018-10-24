@@ -3,7 +3,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Parser for all the training options')
 
 # General options
-parser.add_argument('-shuffle', action='store_true', help='Reshuffle data at each epoch')
+parser.add_argument('-shuffle', help='Reshuffle data at each epoch')
 parser.add_argument('-small_set', action='store_true', help='Whether uses a small dataset')
 parser.add_argument('-train_record', action='store_true', help='Path to save train record')
 parser.add_argument('-test_only', action='store_true', help='Only conduct test on the validation set')
