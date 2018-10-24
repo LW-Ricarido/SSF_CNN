@@ -2,3 +2,8 @@
 .idea
 checkpoints
 DataSets
+model.txt
+results.txt
+/pretrained/
+*.sh
+*.log

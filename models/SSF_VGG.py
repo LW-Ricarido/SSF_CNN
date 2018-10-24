@@ -10,7 +10,7 @@ __all__ = [
 
 def Sconv3x3(in_channels,out_channels,stride = 1):
     "3x3 Strenght_Conv2d with padding"
-    return Strength_Conv2d(in_channels,out_channels,kerner_size=3,stride=1,padding=1)
+    return Strength_Conv2d(in_channels,out_channels,kernel_size=3,stride=1,padding=1)
 
 cfg = {
     'A': [64, 'M', 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M'],
@@ -38,23 +38,24 @@ class SSF_VGG(nn.Module):
     def __init__(self,features,args,init_weights = True):
         super(SSF_VGG, self).__init__()
         self.features = features
+        self.args = args
         self.classifier = nn.Sequential(
             nn.Linear(512 * 7 * 7,4096),
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.Linear(4096,4096),
             nn.ReLU(inplace=True),
-            nn.Dropout(0.5),
-            nn.Linear(4096,self.args.output_classes)
+            nn.Dropout(0.5)
         )
-        self.args = args
+        self.output = nn.Linear(4096,self.args.output_classes)
         if init_weights:
             self._initialize_weights()
 
     def forward(self, input):
         x = self.features(input)
-        x = x.view(x.size(0))
+        x = x.view(x.size(0),-1)
         x = self.classifier(x)
+        x = self.output(x)
         return x
 
     def _initialize_weights(self):

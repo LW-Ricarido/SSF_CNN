@@ -2,7 +2,7 @@ import torch
 import torch.optim as optim
 from torch.autograd import Variable
 import pickle
-import itertools
+from itertools import islice
 from utils.mixup import shuffle_minibatch
 import numpy as np
 import torch.nn as nn
@@ -16,7 +16,7 @@ class Trainer:
         self.model = model
         self.criterion = criterion
         self.optimizer = optim.SGD(
-            model.parameters(),
+            filter(lambda p:p.requires_grad,model.parameters()),
             args.learn_rate,
             momentum=args.momentum,
             weight_decay=args.weight_decay,
@@ -39,9 +39,10 @@ class Trainer:
         model = self.model
         model.train()
         self.learning_rate(epoch)
-
-        for i, (input_tensor, target) in itertools.islice(train_loader,stop=self.args.data_size):
-
+        print(self.data_size)
+        i = -1
+        for (input_tensor, target) in islice(train_loader,self.data_size):
+            i += 1
             # print(target)
             if self.args.mixup:
                 # input_tensor = np.transpose(input_tensor, (0, 2, 3, 1))

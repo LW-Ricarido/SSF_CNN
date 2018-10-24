@@ -91,9 +91,9 @@ class SSF_ResNet(nn.Module):
         self.layer1 = self._make_layer(block,64,layers[0])
         self.layer2 = self._make_layer(block,128,layers[1],stride=2)
         self.layer3 = self._make_layer(block,256,layers[2],stride=2)
-        self.layer4 = self._make_layer(block,512,layers[4],stride=2)
+        self.layer4 = self._make_layer(block,512,layers[3],stride=2)
         self.avgpool = nn.AvgPool2d(7,stride=1)
-        self.fc = nn.Linear(512 * block.expansion, args.output_classes)
+        self.fc1 = nn.Linear(512 * block.expansion, args.output_classes)
 
         for m in self.modules():
             if isinstance(m,Strength_Conv2d):
@@ -133,7 +133,7 @@ class SSF_ResNet(nn.Module):
 
         x = self.avgpool(x)
         x = x.view(x.size(0),-1)
-        x = self.fc(x)
+        x = self.fc1(x)
 
         return x
 

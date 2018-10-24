@@ -16,12 +16,23 @@ from torchvision.datasets.utils import download_url, check_integrity
 import argparse
 
 def get_train_loader(args):
+
+    transform = transforms.Compose([
+        transforms.Grayscale(num_output_channels=3),
+        transforms.Resize((args.size,args.size)),
+        transforms.ToTensor(),
+    ])
+
     if args.dataset == 'CIFAR10':
-        dataset = CIFAR10(root=args.data_dir,train=True)
+        dataset = CIFAR10(root=args.data_dir,train=True,
+                          transform=transforms.Compose([
+                              transforms.Resize(args.size,args.size),
+                              transforms.ToTensor(),
+                          ]))
     elif args.dataset == 'MNIST':
-        dataset = MNIST(root=args.data_dir,train=True)
+        dataset = MNIST(root=args.data_dir,train=True,transform=transform)
     else:
-        dataset = SmallNORB(root=args.data_dir,train=True)
+        dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
 
     return DataLoader(
         dataset,
@@ -32,12 +43,23 @@ def get_train_loader(args):
     )
 
 def get_test_loader(args):
+
+    transform = transforms.Compose([
+        transforms.Grayscale(num_output_channels=3),
+        transforms.Resize((args.size,args.size)),
+        transforms.ToTensor(),
+    ])
+
     if args.dataset == 'CIFAR10':
-        dataset = CIFAR10(root=args.data_dir,train=False)
+        dataset = CIFAR10(root=args.data_dir, train=True,
+                          transform=transforms.Compose([
+                              transforms.Resize(args.size, args.size),
+                              transforms.ToTensor(),
+                          ]))
     elif args.dataset == 'MNIST':
-        dataset = MNIST(root=args.data_dir,train=False)
+        dataset = MNIST(root=args.data_dir,train=False,transform=transform)
     else:
-        dataset = SmallNORB(root=args.data_dir,train=True)
+        dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
 
     return DataLoader(
         dataset,
