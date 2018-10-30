@@ -2,7 +2,8 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 
 from opts import args
-from models.SSF_Resnet import ssf_resnet50,ssf_resnet101,ssf_resnet152
+from models.SSF_Resnet import ssf_resnet34,ssf_resnet50,ssf_resnet101,ssf_resnet152
+from models.resnet import resnet34,resnet50,resnet101,resnet152
 from models.SSF_VGG import ssf_vgg19,ssf_vgg16,ssf_vgg13
 from datasets import get_train_loader
 from datasets import get_test_loader
@@ -18,6 +19,11 @@ def get_catalogue():
     model_creators['ssf_resnet101'] = ssf_resnet101
     model_creators['ssf_resnet152'] = ssf_resnet152
     model_creators['ssf_resnet50'] = ssf_resnet50
+    model_creators['ssf_resnet34'] = ssf_resnet34
+    model_creators['resnet101'] = resnet101
+    model_creators['resnet152'] = resnet152
+    model_creators['resnet50'] = resnet50
+    model_creators['resnet34'] = resnet34
     model_creators['ssf_vgg19'] = ssf_vgg19
     model_creators['ssf_vgg16'] = ssf_vgg16
     model_creators['ssf_vgg13'] = ssf_vgg13
