@@ -8,7 +8,7 @@ __all__ = ['Bottleneck','SSF_ResNet','ssf_resnet18','ssf_resnet34','ssf_resnet50
 
 def Sconv3x3(in_channels,out_channels,stride = 1):
     "3x3 Strenght_Conv2d with padding"
-    return Strength_Conv2d(in_channels,out_channels,kernel_size=3,stride=1,padding=1,bias=False)
+    return Strength_Conv2d(in_channels,out_channels,kernel_size=3,stride=stride,padding=1,bias=False)
 
 class BasicBlock(nn.Module):
     expansion = 1
