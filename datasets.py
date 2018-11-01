@@ -1,11 +1,10 @@
 import os
-import cv2
 import errno
 import struct
-
+import random
 import torch
 from torch.utils.data import DataLoader
-from torch.utils.data.sampler import Sampler
+from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
 from torchvision.datasets import CIFAR10,MNIST
 import torch.utils.data as data
@@ -31,6 +30,7 @@ def get_train_loader(args):
                           ]))
     elif args.dataset == 'MNIST':
         dataset = MNIST(root=args.data_dir,train=True,transform=transform)
+        dataset = Subset(dataset=dataset,indices=random.sample(range(60000),args.data_size))
     else:
         dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
 
@@ -60,6 +60,7 @@ def get_test_loader(args):
         dataset = MNIST(root=args.data_dir,train=False,transform=transform)
     else:
         dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
+
 
     return DataLoader(
         dataset,
