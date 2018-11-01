@@ -42,7 +42,6 @@ class Trainer:
         print(self.data_size)
         i = -1
         for i,(input_tensor, target) in enumerate(train_loader):
-            print("target:",target.data)
             # print(target)
             if self.args.mixup:
                 # input_tensor = np.transpose(input_tensor, (0, 2, 3, 1))
