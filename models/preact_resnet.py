@@ -7,6 +7,7 @@ Reference:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from copy import deepcopy
 
 
 class PreActBlock(nn.Module):
@@ -97,7 +98,21 @@ class PreActResNet(nn.Module):
 def PreActResNet18():
     return PreActResNet(PreActBlock, [2,2,2,2])
 
-def PreActResNet34():
+def PreActResNet34(args):
+    if args.pretrained:
+        print("pretrained")
+        model = PreActResNet(PreActBlock,[3,4,6,3])
+        pretrained_dict = torch.load(args.pretrained)
+        model_dict = model.state_dict()
+        keys = deepcopy(pretrained_dict).keys()
+        for key in keys:
+            if key not in model_dict:
+                del pretrained_dict[key]
+
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+
+        return model
     return PreActResNet(PreActBlock, [3,4,6,3])
 
 def PreActResNet50():
