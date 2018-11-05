@@ -25,14 +25,16 @@ def get_train_loader(args):
     if args.dataset == 'CIFAR10':
         dataset = CIFAR10(root=args.data_dir,train=True,
                           transform=transforms.Compose([
-                              transforms.Resize(args.size,args.size),
+                              transforms.Resize((args.size,args.size)),
                               transforms.ToTensor(),
                           ]))
+        dataset = Subset(dataset=dataset,indices=random.sample(range(50000),args.dataset_size))
     elif args.dataset == 'MNIST':
         dataset = MNIST(root=args.data_dir,train=True,transform=transform)
         dataset = Subset(dataset=dataset,indices=random.sample(range(60000),args.data_size))
     else:
         dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
+        dataset = Subset(dataset=dataset,indices=random.sample(range(48600),args.data_size))
 
     return DataLoader(
         dataset,
@@ -216,7 +218,7 @@ class SmallNORB(data.Dataset):
             return img_left, img_right, target, info
 
         img = self._transform(self.data[index])
-        return img, target, info
+        return img, target
 
     def __len__(self):
         return len(self.data)

@@ -40,7 +40,6 @@ class Trainer:
         model.train()
         self.learning_rate(epoch)
         print(self.data_size)
-        i = -1
         for i,(input_tensor, target) in enumerate(train_loader):
             # print(target)
             if self.args.mixup:
