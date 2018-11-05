@@ -28,7 +28,7 @@ def get_train_loader(args):
                               transforms.Resize((args.size,args.size)),
                               transforms.ToTensor(),
                           ]))
-        dataset = Subset(dataset=dataset,indices=random.sample(range(50000),args.dataset_size))
+        dataset = Subset(dataset=dataset,indices=random.sample(range(50000),args.data_size))
     elif args.dataset == 'MNIST':
         dataset = MNIST(root=args.data_dir,train=True,transform=transform)
         dataset = Subset(dataset=dataset,indices=random.sample(range(60000),args.data_size))
