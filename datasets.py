@@ -55,7 +55,7 @@ def get_test_loader(args):
     if args.dataset == 'CIFAR10':
         dataset = CIFAR10(root=args.data_dir, train=True,
                           transform=transforms.Compose([
-                              transforms.Resize(args.size, args.size),
+                              transforms.Resize((args.size, args.size)),
                               transforms.ToTensor(),
                           ]))
     elif args.dataset == 'MNIST':
