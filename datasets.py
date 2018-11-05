@@ -53,7 +53,7 @@ def get_test_loader(args):
     ])
 
     if args.dataset == 'CIFAR10':
-        dataset = CIFAR10(root=args.data_dir, train=True,
+        dataset = CIFAR10(root=args.data_dir, train=False,
                           transform=transforms.Compose([
                               transforms.Resize((args.size, args.size)),
                               transforms.ToTensor(),
@@ -61,7 +61,7 @@ def get_test_loader(args):
     elif args.dataset == 'MNIST':
         dataset = MNIST(root=args.data_dir,train=False,transform=transform)
     else:
-        dataset = SmallNORB(root=args.data_dir,train=True,transform=transform)
+        dataset = SmallNORB(root=args.data_dir,train=False,transform=transform)
 
 
     return DataLoader(
