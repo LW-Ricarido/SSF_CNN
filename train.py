@@ -6,6 +6,7 @@ from itertools import islice
 from utils.mixup import shuffle_minibatch
 import numpy as np
 import torch.nn as nn
+from models.elastic_net import get_elastic_net
 import os
 
 
@@ -26,6 +27,7 @@ class Trainer:
         self.learn_rate = args.learn_rate
         self.architecture = args.model
         self.data_size = args.data_size
+        self.elastic_net = get_elastic_net(lambda1=0,lambda2=1e-4)
 
     def train(self, epoch, train_loader):
         n_batches = len(train_loader)
@@ -67,6 +69,9 @@ class Trainer:
             else:
                 loss = self.criterion(output, target_var)
 
+            if epoch > 20:
+                self.elastic_net.lambda1 = 1e-4
+            loss += self.elastic_net(filter(lambda p:p.requires_grad,self.model.parameters()))
             acc, acc_top3 = self.accuracy(output.data, target, (1, 3))
 
             acc_avg += acc * batch_size
